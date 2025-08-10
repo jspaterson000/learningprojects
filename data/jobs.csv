@@ -1,0 +1,21 @@
+job_id,suburb,travel_km,duration_min
+1,Newstead,4.2,55
+2,Fortitude Valley,2.8,40
+3,West End,5.1,65
+4,Newstead,3.9,50
+5,Fortitude Valley,3.3,48
+6,Paddington,6.7,70
+7,Teneriffe,2.1,35
+8,New Farm,3.0,42
+9,Newstead,4.5,58
+10,West End,5.8,72
+11,Fortitude Valley,2.5,38
+12,Paddington,7.2,80
+13,New Farm,3.4,44
+14,Teneriffe,2.0,36
+15,Newstead,4.1,53
+16,West End,6.0,68
+17,Fortitude Valley,2.9,41
+18,New Farm,3.2,46
+19,Paddington,6.9,76
+20,Teneriffe,2.3,34
