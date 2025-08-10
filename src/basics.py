@@ -1,46 +1,45 @@
-from __future__ import annotations
 from collections import Counter, deque
 from csv import DictReader
 from statistics import mean
-from typing import Iterable, Sequence, Dict, List, Set, Any
+from typing import List, Set, Sequence, Hashable, Dict, Any
 
-
-def modes(xs: Sequence[int]) -> Set[int]:
+def modes(xs: Sequence[Hashable]) -> Set[Hashable]:
     """
-    Return the set of modal values (most frequent) in xs.
-    Empty input -> empty set.
+    Return ALL modal values (ties allowed). Empty input -> empty set.
+    Examples:
+        modes([1,1,2,2,3]) -> {1,2}
+        modes([]) -> set()
     """
     if not xs:
         return set()
     counts = Counter(xs)
-    if not counts:
-        return set()
     max_freq = max(counts.values())
     return {x for x, c in counts.items() if c == max_freq}
 
-
 def rolling_mean(xs: Sequence[float], k: int) -> List[float]:
     """
-    Compute rolling average over window size k in O(n) time.
-    Returns an empty list if k > len(xs). Raises ValueError if k <= 0.
+    Compute a k-length moving average in O(n) time.
+
+    Example:
+        rolling_mean([1,2,3,4,5], 3) == [2.0, 3.0, 4.0]
     """
-    n = len(xs)
-    if k <= 0:
+    if not isinstance(k, int) or k <= 0:
         raise ValueError("k must be a positive integer")
+    n = len(xs)
     if k > n:
         return []
     out: List[float] = []
     window_sum = 0.0
-    q = deque()  # store last k items
+    q = deque()
     for x in xs:
-        q.append(float(x))
-        window_sum += float(x)
+        x = float(x)
+        q.append(x)
+        window_sum += x
         if len(q) > k:
             window_sum -= q.popleft()
         if len(q) == k:
             out.append(window_sum / k)
     return out
-
 
 def csv_groupby(path: str) -> Dict[str, Dict[str, float]]:
     """
@@ -65,27 +64,3 @@ def csv_groupby(path: str) -> Dict[str, Dict[str, float]]:
             "mean_duration": mean(vals["durs"]) if vals["durs"] else 0.0,
         }
     return result
-
-
-def business_fizzbuzz(n: int) -> List[Any]:
-    """
-    For each integer 1..n inclusive:
-    - "ETA" if divisible by 2
-    - "RISK" if divisible by 3
-    - "ETARISK" if divisible by 2 and 3
-    - otherwise the number
-    Returns a list without printing.
-    """
-    out: List[Any] = []
-    for i in range(1, n + 1):
-        two = (i % 2 == 0)
-        three = (i % 3 == 0)
-        if two and three:
-            out.append("ETARISK")
-        elif two:
-            out.append("ETA")
-        elif three:
-            out.append("RISK")
-        else:
-            out.append(i)
-    return out
